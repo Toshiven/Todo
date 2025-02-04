@@ -84,28 +84,47 @@ class _TodoAppState extends State<TodoApp> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Todo List',
-            ),
-            InputTextField(controller: controller),
-            AddButton(onPressed: addItem),
-            Flexible(
-                child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                //TODO: fix checkbox and delete
-                return CustomItem(
-                    value: checked[index],
-                    onChange: (value) => check(index: index, value: value),
-                    delete: () => deleteItem(index: index),
-                    title: items[index]);
-              },
-            ))
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const Text(
+                'Todo List',
+              ),
+              Row(
+                children: [
+                  Flexible(
+                    child: Container(
+                      margin: EdgeInsets.all(8.0),
+                      child: InputTextField(controller: controller),
+                    ),
+                  ),
+                  Container(
+                      margin: EdgeInsets.all(8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: AddButton(onPressed: addItem),
+                      ))
+                ],
+              ),
+              Row(children: [
+                Flexible(
+                    child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    //TODO: fix checkbox
+                    return CustomItem(
+                        value: checked[index],
+                        onChange: (value) => check(index: index, value: value),
+                        delete: () => deleteItem(index: index),
+                        title: items[index]);
+                  },
+                ))
+              ])
+            ],
+          ),
         ),
       ),
     );

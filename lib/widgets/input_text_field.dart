@@ -8,17 +8,17 @@ class InputTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white.withOpacity(0.6),
-        hintText: "Tasks",
-        hintStyle:
-            TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-      ),
-    );
+        controller: controller,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white.withOpacity(0.6),
+          hintText: "Tasks",
+          hintStyle:
+              TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: BorderSide.none,
+          ),
+        ));
   }
 }
