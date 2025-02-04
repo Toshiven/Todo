@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:todo_app/widgets/add-button.dart';
 import 'package:todo_app/widgets/add_button.dart';
 import 'package:todo_app/widgets/input_text_field.dart';
 import 'package:todo_app/widgets/list_item.dart';
@@ -65,9 +64,9 @@ class _TodoAppState extends State<TodoApp> {
     });
   }
 
-  void deleteItem(int i) {
+  void deleteItem({required int index}) {
     setState(() {
-      items.removeAt(i);
+      items.removeAt(index);
     });
   }
 
@@ -91,33 +90,18 @@ class _TodoAppState extends State<TodoApp> {
             const Text(
               'Todo List',
             ),
-            //TODO: Turn into custom stateless button
             InputTextField(controller: controller),
-            //TODO: Turn into custom stateless button
             AddButton(onPressed: addItem),
             Flexible(
                 child: ListView.builder(
               shrinkWrap: true,
               itemCount: items.length,
               itemBuilder: (context, index) {
-                // return ListTile(
-                //  leading: Checkbox(
-                //  value: checked[index],
-                // title: Text(_items[index]),
-                // onChanged: (value) =>
-                //    check(index: index, value: value ?? false),
-                // ),
-                // title: Text(items[index]),
-                // trailing: IconButton(
-                //  icon: const Icon(Icons.delete, color: Colors.red),
-                //  onPressed: () => deleteItem(index),
-                //),
-                //     );
+                //TODO: fix checkbox and delete
                 return CustomItem(
                     value: checked[index],
-                    onChange: (value) =>
-                        check(index: index, value: value ?? false),
-                    delete: () => deleteItem(index),
+                    onChange: (value) => check(index: index, value: value),
+                    delete: () => deleteItem(index: index),
                     title: items[index]);
               },
             ))
@@ -127,20 +111,3 @@ class _TodoAppState extends State<TodoApp> {
     );
   }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListTile(
-//       leading: Checkbox(
-//         value: value,
-//         // title: Text(_items[index]),
-//         onChanged: (value) => onChange,
-//       ),
-//       title: Text(title),
-//       trailing: IconButton(
-//         icon: const Icon(Icons.delete, color: Colors.red),
-//         onPressed: () => delete,
-//       ),
-//     );
-//   }
-// }

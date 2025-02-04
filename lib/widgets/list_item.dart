@@ -19,12 +19,12 @@ class CustomItem extends StatelessWidget {
       leading: Checkbox(
         value: value,
         // title: Text(_items[index]),
-        onChanged: (value) => onChange,
+        onChanged: (value) => onChange(value ?? false),
       ),
       title: Text(title),
       trailing: IconButton(
         icon: const Icon(Icons.delete, color: Colors.red),
-        onPressed: () => delete,
+        onPressed: delete,
       ),
     );
   }
