@@ -104,7 +104,7 @@ class _TodoAppState extends State<TodoApp> {
             ),
             //TODO: Turn into custom stateless button
             ElevatedButton(onPressed: addItem, child: const Text('add task')),
-            Expanded(
+            Flexible(
                 child: ListView.builder(
               shrinkWrap: true,
               itemCount: items.length,
