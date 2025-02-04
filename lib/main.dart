@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:todo_app/widgets/add-button.dart';
 import 'package:todo_app/widgets/list_item.dart';
 import 'user.dart';
 
@@ -103,7 +104,7 @@ class _TodoAppState extends State<TodoApp> {
               ),
             ),
             //TODO: Turn into custom stateless button
-            ElevatedButton(onPressed: addItem, child: const Text('add task')),
+            AddButton(onPressed: addItem),
             Flexible(
                 child: ListView.builder(
               shrinkWrap: true,
@@ -137,14 +138,7 @@ class _TodoAppState extends State<TodoApp> {
   }
 }
 
-class AddButton extends StatelessWidget {
-  const AddButton({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
 
 
 //   @override
