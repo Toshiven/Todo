@@ -17,10 +17,13 @@ class CustomItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Checkbox(
-        value: value,
-        // title: Text(_items[index]),
-        onChanged: (value) => onChange(value ?? false),
-      ),
+          value: value,
+          // title: Text(_items[index]),
+          onChanged: (value) {
+            if (value != null) {
+              onChange(value);
+            }
+          }),
       title: Text(title),
       trailing: IconButton(
         icon: const Icon(Icons.delete, color: Colors.red),

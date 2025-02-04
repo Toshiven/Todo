@@ -67,6 +67,7 @@ class _TodoAppState extends State<TodoApp> {
   void deleteItem({required int index}) {
     setState(() {
       items.removeAt(index);
+      checked.removeAt(index);
     });
   }
 
