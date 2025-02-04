@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:todo_app/widgets/add-button.dart';
+import 'package:todo_app/widgets/add_button.dart';
+import 'package:todo_app/widgets/input_text_field.dart';
 import 'package:todo_app/widgets/list_item.dart';
 import 'user.dart';
 
@@ -90,19 +92,7 @@ class _TodoAppState extends State<TodoApp> {
               'Todo List',
             ),
             //TODO: Turn into custom stateless button
-            TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white.withOpacity(0.6),
-                hintText: "Tasks",
-                hintStyle: TextStyle(
-                    color: Colors.grey[400], fontWeight: FontWeight.bold),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
+            InputTextField(controller: controller),
             //TODO: Turn into custom stateless button
             AddButton(onPressed: addItem),
             Flexible(
@@ -138,9 +128,6 @@ class _TodoAppState extends State<TodoApp> {
   }
 }
 
-
-
-
 //   @override
 //   Widget build(BuildContext context) {
 //     return ListTile(
@@ -157,4 +144,3 @@ class _TodoAppState extends State<TodoApp> {
 //     );
 //   }
 // }
-
