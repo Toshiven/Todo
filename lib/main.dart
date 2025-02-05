@@ -43,14 +43,12 @@ class TodoApp extends StatefulWidget {
 }
 
 class _TodoAppState extends State<TodoApp> {
-  //TODO: Transfer to initState
   late TextEditingController controller;
   late List<String> items;
   late List<bool> checked;
 
   @override
   void initState() {
-    // TODO: implement initState
     controller = TextEditingController();
     items = [];
     checked = [];
@@ -94,7 +92,7 @@ class _TodoAppState extends State<TodoApp> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               const Text(
-                'Todo List',
+                'TODO LIST',
               ),
               Row(
                 children: [
@@ -118,7 +116,6 @@ class _TodoAppState extends State<TodoApp> {
                   shrinkWrap: true,
                   itemCount: items.length,
                   itemBuilder: (context, index) {
-                    //TODO: fix checkbox
                     return CustomItem(
                         value: checked[index],
                         onChange: (value) => check(index: index, value: value),

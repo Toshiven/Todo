@@ -15,20 +15,23 @@ class CustomItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Checkbox(
-          value: value,
-          // title: Text(_items[index]),
-          onChanged: (value) {
-            if (value != null) {
-              onChange(value);
-            }
-          }),
-      title: Text(title),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete, color: Colors.red),
-        onPressed: delete,
+    return Column(children: [
+      ListTile(
+        leading: Checkbox(
+            value: value,
+            // title: Text(_items[index]),
+            onChanged: (value) {
+              if (value != null) {
+                onChange(value);
+              }
+            }),
+        title: Text(title),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.red),
+          onPressed: delete,
+        ),
       ),
-    );
+      const Divider()
+    ]);
   }
 }
