@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Todo App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.tealAccent),
         useMaterial3: true,
       ),
       home: const TodoApp(title: 'Todo Page'),
@@ -44,9 +44,18 @@ class TodoApp extends StatefulWidget {
 
 class _TodoAppState extends State<TodoApp> {
   //TODO: Transfer to initState
-  final TextEditingController controller = TextEditingController();
-  final List<String> items = [];
-  final List<bool> checked = [];
+  late TextEditingController controller;
+  late List<String> items;
+  late List<bool> checked;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    controller = TextEditingController();
+    items = [];
+    checked = [];
+    super.initState();
+  }
 
   void addItem() {
     if (controller.text.isNotEmpty) {
@@ -69,12 +78,6 @@ class _TodoAppState extends State<TodoApp> {
       items.removeAt(index);
       checked.removeAt(index);
     });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
   }
 
   @override
