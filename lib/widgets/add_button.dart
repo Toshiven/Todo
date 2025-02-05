@@ -9,6 +9,8 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.only(
+                top: 16.0, bottom: 16.0, left: 32.0, right: 32.0),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0))),
         onPressed: onPressed,

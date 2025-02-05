@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:todo_app/widgets/add_button.dart';
+import 'package:todo_app/widgets/delete_button.dart';
 import 'package:todo_app/widgets/input_text_field.dart';
 import 'package:todo_app/widgets/list_item.dart';
 import 'user.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.tealAccent),
         useMaterial3: true,
       ),
-      home: const TodoApp(title: 'Todo Page'),
+      home: const TodoApp(title: 'TODO LIST'),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -72,10 +73,14 @@ class _TodoAppState extends State<TodoApp> {
     });
   }
 
-  void deleteItem({required int index}) {
+  void deleteItem() {
     setState(() {
-      items.removeAt(index);
-      checked.removeAt(index);
+      items = List.from(items
+          .asMap()
+          .entries
+          .where((entry) => !checked[entry.key])
+          .map((entry) => entry.value));
+      checked = List.from(checked.where((value) => !value));
     });
   }
 
@@ -88,13 +93,10 @@ class _TodoAppState extends State<TodoApp> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(32.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              const Text(
-                'TODO LIST',
-              ),
               Row(
                 children: [
                   Flexible(
@@ -103,27 +105,38 @@ class _TodoAppState extends State<TodoApp> {
                       child: InputTextField(controller: controller),
                     ),
                   ),
-                  Container(
-                      margin: EdgeInsets.all(8.0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                  Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        margin: EdgeInsets.all(8.0),
                         child: AddButton(onPressed: addItem),
+                      )),
+                  Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        margin: EdgeInsets.all(8.0),
+                        child: DeleteButton(
+                          onPressed: deleteItem,
+                        ),
                       ))
                 ],
               ),
               Row(children: [
                 Flexible(
-                    child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    return CustomItem(
-                        value: checked[index],
-                        onChange: (value) => check(index: index, value: value),
-                        delete: () => deleteItem(index: index),
-                        title: items[index]);
-                  },
-                ))
+                    child: Container(
+                        margin: EdgeInsets.all(32.0),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: items.length,
+                          itemBuilder: (context, index) {
+                            return CustomItem(
+                                value: checked[index],
+                                onChange: (value) =>
+                                    check(index: index, value: value),
+                                delete: () => deleteItem(),
+                                title: items[index]);
+                          },
+                        )))
               ])
             ],
           ),
