@@ -5,7 +5,7 @@ import 'package:todo_app/widgets/add_button.dart';
 import 'package:todo_app/widgets/delete_button.dart';
 import 'package:todo_app/widgets/input_text_field.dart';
 import 'package:todo_app/widgets/list_item.dart';
-import 'user.dart';
+import 'task.dart';
 
 late Isar isar;
 
@@ -13,7 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final dir = await getApplicationDocumentsDirectory();
-  isar = await Isar.open([UserSchema], directory: dir.path);
+  isar = await Isar.open([TaskSchema], directory: dir.path);
 
   runApp(const MyApp());
 }
@@ -54,11 +54,26 @@ class _TodoAppState extends State<TodoApp> {
     controller = TextEditingController();
     items = [];
     checked = [];
+    loadTasks();
     super.initState();
   }
 
-  void addItem() {
+  void loadTasks() async {
+    final tasks = await isar.tasks.where().findAll();
+
+    setState(() {
+      items = tasks.map((tasks) => tasks.title).toList();
+      checked = tasks.map((tasks) => tasks.completed).toList();
+    });
+  }
+
+  void addItem() async {
     if (controller.text.isNotEmpty) {
+      final newTask = Task(title: controller.text, completed: false);
+
+      await isar.writeTxn(() async {
+        await isar.tasks.put(newTask);
+      });
       setState(() {
         items.add(controller.text);
         checked.add(false);
@@ -73,7 +88,22 @@ class _TodoAppState extends State<TodoApp> {
     });
   }
 
-  void deleteItem() {
+  void deleteItem() async {
+    await isar.writeTxn(() async {
+      for (int i = checked.length - 1; i >= 0; i--) {
+        if (checked[i]) {
+          final task = await isar.tasks
+              .where()
+              .filter()
+              .titleEqualTo(items[i])
+              .findFirst();
+
+          if (task != null) {
+            await isar.tasks.delete(task.id);
+          }
+        }
+      }
+    });
     setState(() {
       items = List.from(items
           .asMap()
@@ -133,7 +163,6 @@ class _TodoAppState extends State<TodoApp> {
                                 value: checked[index],
                                 onChange: (value) =>
                                     check(index: index, value: value),
-                                delete: () => deleteItem(),
                                 title: items[index]);
                           },
                         )))
