@@ -105,6 +105,7 @@ class _TodoAppState extends State<TodoApp> {
       }
     });
     setState(() {
+      //I do not know how this is not breaking anything ??
       items = List.from(items
           .asMap()
           .entries
