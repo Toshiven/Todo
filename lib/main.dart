@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const TodoApp(title: 'Todo Page'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
