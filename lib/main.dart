@@ -110,21 +110,17 @@ class _TodoAppState extends State<TodoApp> {
       }
     });
     setState(() {
-      final indicesToRemove = checked
-          .asMap()
-          .entries
-          .where((entry) => entry.value)
-          .map((entry) => entry.key)
-          .toList();
-      for (int index in indicesToRemove.reversed) {
-        items.removeAt(index);
-        checked.removeAt(index);
-      }
+      items.removeWhere((item) => checked[items.indexOf(item)]);
+      checked.removeWhere((value) => value);
     });
   }
 
-  void editItem(int id, String newTitle) async {
-    final task = await isar.tasks.get(id);
+  void editItem(int index, String newTitle) async {
+    final task = await isar.tasks
+        .where()
+        .filter()
+        .titleEqualTo(items[index])
+        .findFirst();
     if (task != null) {
       task.title = newTitle;
       await isar.writeTxn(() async {
@@ -132,7 +128,7 @@ class _TodoAppState extends State<TodoApp> {
       });
     }
     setState(() {
-      items[id] = newTitle;
+      items[index] = newTitle;
     });
   }
 
