@@ -9,6 +9,8 @@ class DeleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
             padding: EdgeInsets.only(
                 top: 16.0, bottom: 16.0, left: 32.0, right: 32.0),
             shape: RoundedRectangleBorder(
