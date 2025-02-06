@@ -160,24 +160,22 @@ class _TodoAppState extends State<TodoApp> {
                       ))
                 ],
               ),
-              Row(children: [
-                Flexible(
-                    child: Container(
-                        margin: EdgeInsets.all(32.0),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: items.length,
-                          itemBuilder: (context, index) {
-                            return CustomItem(
-                              value: checked[index],
-                              onChange: (value) =>
-                                  check(index: index, value: value),
-                              title: items[index],
-                              onUpdate: (newTitle) => editItem(index, newTitle),
-                            );
-                          },
-                        )))
-              ])
+              Flexible(
+                  child: Container(
+                      margin: EdgeInsets.all(32.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          return CustomItem(
+                            value: checked[index],
+                            onChange: (value) =>
+                                check(index: index, value: value),
+                            title: items[index],
+                            onUpdate: (newTitle) => editItem(index, newTitle),
+                          );
+                        },
+                      )))
             ],
           ),
         ),
