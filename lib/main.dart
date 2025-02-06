@@ -105,20 +105,8 @@ class _TodoAppState extends State<TodoApp> {
       }
     });
     setState(() {
-      //I do not know how this is not breaking anything ??
-      items = List.from(items
-          .asMap()
-          .entries
-          .where((entry) => !checked[entry.key])
-          .map((entry) => entry.value));
-      checked = List.from(checked.where((value) => !value));
-    });
-  }
-
-  void switchField() {
-    late bool isEnabled = false;
-    setState(() {
-      isEnabled = !isEnabled;
+      items.removeWhere((item) => checked[items.indexOf(item)]);
+      checked.removeWhere((value) => value);
     });
   }
 
