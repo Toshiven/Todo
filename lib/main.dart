@@ -59,15 +59,19 @@ class _TodoAppState extends State<TodoApp> {
   }
 
   void loadTasks() async {
+    //fetches the todo task todo list from Isar and populates items and checked
     final tasks = await isar.tasks.where().findAll();
 
     setState(() {
+      //the items in the todo app
       items = tasks.map((tasks) => tasks.title).toList();
+      //saves the the checked items so it does not go unchecked after reload
       checked = tasks.map((tasks) => tasks.completed).toList();
     });
   }
 
   void addItem() async {
+    //adds items to the Isae db
     if (controller.text.isNotEmpty) {
       final newTask = Task(title: controller.text, completed: false);
 
@@ -75,6 +79,7 @@ class _TodoAppState extends State<TodoApp> {
         await isar.tasks.put(newTask);
       });
       setState(() {
+        //rebuilds the UI with new tasks
         items.add(controller.text);
         checked.add(false);
         controller.clear();
@@ -105,13 +110,21 @@ class _TodoAppState extends State<TodoApp> {
       }
     });
     setState(() {
-      items.removeWhere((item) => checked[items.indexOf(item)]);
-      checked.removeWhere((value) => value);
+      final indicesToRemove = checked
+          .asMap()
+          .entries
+          .where((entry) => entry.value)
+          .map((entry) => entry.key)
+          .toList();
+      for (int index in indicesToRemove.reversed) {
+        items.removeAt(index);
+        checked.removeAt(index);
+      }
     });
   }
 
-  void editItem(int index, String newTitle) async {
-    final task = await isar.tasks.where().filter().idEqualTo(index).findFirst();
+  void editItem(int id, String newTitle) async {
+    final task = await isar.tasks.get(id);
     if (task != null) {
       task.title = newTitle;
       await isar.writeTxn(() async {
@@ -119,7 +132,7 @@ class _TodoAppState extends State<TodoApp> {
       });
     }
     setState(() {
-      items[index] = newTitle;
+      items[id] = newTitle;
     });
   }
 
