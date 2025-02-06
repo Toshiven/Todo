@@ -115,6 +115,26 @@ class _TodoAppState extends State<TodoApp> {
     });
   }
 
+  void switchField() {
+    late bool isEnabled = false;
+    setState(() {
+      isEnabled = !isEnabled;
+    });
+  }
+
+  void editItem(int index, String newTitle) async {
+    final task = await isar.tasks.where().filter().idEqualTo(index).findFirst();
+    if (task != null) {
+      task.title = newTitle;
+      await isar.writeTxn(() async {
+        await isar.tasks.put(task);
+      });
+    }
+    setState(() {
+      items[index] = newTitle;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,10 +181,12 @@ class _TodoAppState extends State<TodoApp> {
                           itemCount: items.length,
                           itemBuilder: (context, index) {
                             return CustomItem(
-                                value: checked[index],
-                                onChange: (value) =>
-                                    check(index: index, value: value),
-                                title: items[index]);
+                              value: checked[index],
+                              onChange: (value) =>
+                                  check(index: index, value: value),
+                              title: items[index],
+                              onUpdate: (newTitle) => editItem(index, newTitle),
+                            );
                           },
                         )))
               ])
