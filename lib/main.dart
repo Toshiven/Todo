@@ -105,7 +105,6 @@ class _TodoAppState extends State<TodoApp> {
               .findFirst();
 
           if (task == null) {
-            // tell the user they suck
             return;
           }
           await isar.tasks.delete(task.id);
