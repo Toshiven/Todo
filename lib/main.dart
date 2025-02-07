@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:todo_app/service/task.dart';
 import 'package:todo_app/widgets/add_button.dart';
 import 'package:todo_app/widgets/delete_button.dart';
 import 'package:todo_app/widgets/input_text_field.dart';
 import 'package:todo_app/widgets/list_item.dart';
-import 'task.dart';
+import 'models/task.dart';
 
 late Isar isar;
 
@@ -103,32 +104,17 @@ class _TodoAppState extends State<TodoApp> {
               .titleEqualTo(items[i])
               .findFirst();
 
-          if (task != null) {
-            await isar.tasks.delete(task.id);
+          if (task == null) {
+            // tell the user they suck
+            return;
           }
+          await isar.tasks.delete(task.id);
         }
       }
     });
     setState(() {
       items.removeWhere((item) => checked[items.indexOf(item)]);
       checked.removeWhere((value) => value);
-    });
-  }
-
-  void editItem(int index, String newTitle) async {
-    final task = await isar.tasks
-        .where()
-        .filter()
-        .titleEqualTo(items[index])
-        .findFirst();
-    if (task != null) {
-      task.title = newTitle;
-      await isar.writeTxn(() async {
-        await isar.tasks.put(task);
-      });
-    }
-    setState(() {
-      items[index] = newTitle;
     });
   }
 
@@ -181,7 +167,16 @@ class _TodoAppState extends State<TodoApp> {
                             onChange: (value) =>
                                 check(index: index, value: value),
                             title: items[index],
-                            onUpdate: (newTitle) => editItem(index, newTitle),
+                            onUpdate: (newTitle) => TaskService.editItem(
+                              index: index,
+                              title: items[index],
+                              newTitle: newTitle,
+                              onComplete: (value) {
+                                setState(() {
+                                  items[index] = value;
+                                });
+                              },
+                            ),
                           );
                         },
                       )))
