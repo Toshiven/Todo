@@ -19,4 +19,21 @@ class TaskService {
     });
     onComplete(newTitle);
   }
+
+  static addItem(
+      {required controller,
+      required List<String> items,
+      required List<bool> checked,
+      required Function() onAdd}) async {
+    //adds items to the Isae db
+    if (controller.text.isNotEmpty) {
+      final newTask = Task(title: controller.text, completed: false);
+
+      await isar.writeTxn(() async {
+        await isar.tasks.put(newTask);
+      });
+      onAdd();
+      controller.clear();
+    }
+  }
 }

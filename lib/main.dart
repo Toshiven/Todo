@@ -71,23 +71,6 @@ class _TodoAppState extends State<TodoApp> {
     });
   }
 
-  void addItem() async {
-    //adds items to the Isae db
-    if (controller.text.isNotEmpty) {
-      final newTask = Task(title: controller.text, completed: false);
-
-      await isar.writeTxn(() async {
-        await isar.tasks.put(newTask);
-      });
-      setState(() {
-        //rebuilds the UI with new tasks
-        items.add(controller.text);
-        checked.add(false);
-        controller.clear();
-      });
-    }
-  }
-
   void check({required int index, bool value = false}) {
     setState(() {
       checked[index] = value;
@@ -142,7 +125,17 @@ class _TodoAppState extends State<TodoApp> {
                       alignment: Alignment.center,
                       child: Container(
                         margin: EdgeInsets.all(8.0),
-                        child: AddButton(onPressed: addItem),
+                        child: AddButton(
+                            onPressed: () => TaskService.addItem(
+                                controller: controller,
+                                items: items,
+                                checked: checked,
+                                onAdd: () {
+                                  setState(() {
+                                    items.add(controller.text);
+                                    checked.add(false);
+                                  });
+                                })),
                       )),
                   Align(
                       alignment: Alignment.center,
