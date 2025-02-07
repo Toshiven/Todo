@@ -77,29 +77,6 @@ class _TodoAppState extends State<TodoApp> {
     });
   }
 
-  void deleteItem() async {
-    await isar.writeTxn(() async {
-      for (int i = checked.length - 1; i >= 0; i--) {
-        if (checked[i]) {
-          final task = await isar.tasks
-              .where()
-              .filter()
-              .titleEqualTo(items[i])
-              .findFirst();
-
-          if (task == null) {
-            return;
-          }
-          await isar.tasks.delete(task.id);
-        }
-      }
-    });
-    setState(() {
-      items.removeWhere((item) => checked[items.indexOf(item)]);
-      checked.removeWhere((value) => value);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,11 +117,20 @@ class _TodoAppState extends State<TodoApp> {
                   Align(
                       alignment: Alignment.center,
                       child: Container(
-                        margin: EdgeInsets.all(8.0),
-                        child: DeleteButton(
-                          onPressed: deleteItem,
-                        ),
-                      ))
+                          margin: EdgeInsets.all(8.0),
+                          child: DeleteButton(
+                            onPressed: () => TaskService.deleteItem(
+                              checked: checked,
+                              items: items,
+                              onDelete: () {
+                                setState(() {
+                                  items.removeWhere(
+                                      (item) => checked[items.indexOf(item)]);
+                                  checked.removeWhere((value) => value);
+                                });
+                              },
+                            ),
+                          )))
                 ],
               ),
               Flexible(

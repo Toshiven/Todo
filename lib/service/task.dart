@@ -36,4 +36,28 @@ class TaskService {
       controller.clear();
     }
   }
+
+  static deleteItem(
+      {required List<bool> checked,
+      required List<String> items,
+      required Function() onDelete}) async {
+    await isar.writeTxn(() async {
+      for (int i = checked.length - 1; i >= 0; i--) {
+        if (checked[i]) {
+          final task = await isar.tasks
+              .where()
+              .filter()
+              .titleEqualTo(items[i])
+              .findFirst();
+
+          if (task == null) {
+            return;
+          }
+          await isar.tasks.delete(task.id);
+        }
+      }
+    });
+
+    onDelete();
+  }
 }
