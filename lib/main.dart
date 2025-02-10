@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Todo App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.tealAccent),
         useMaterial3: true,
       ),
       home: const TodoApp(title: 'TODO LIST'),
@@ -81,86 +80,110 @@ class _TodoAppState extends State<TodoApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: const Color(0xFF2D336B),
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: [
-                  Flexible(
-                    child: Container(
-                      margin: EdgeInsets.all(8.0),
-                      child: InputTextField(controller: controller),
-                    ),
-                  ),
-                  Align(
-                      alignment: Alignment.center,
+      body: Stack(
+        children: <Widget>[
+          Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 160,
+              child: Container(
+                decoration: BoxDecoration(color: const Color(0xFF2D336B)),
+                child: Row(
+                  children: [
+                    Flexible(
                       child: Container(
                         margin: EdgeInsets.all(8.0),
-                        child: AddButton(
-                            onPressed: () => TaskService.addItem(
-                                controller: controller,
-                                items: items,
-                                checked: checked,
-                                onAdd: () {
-                                  setState(() {
-                                    items.add(controller.text);
-                                    checked.add(false);
-                                  });
-                                })),
-                      )),
-                  Align(
-                      alignment: Alignment.center,
-                      child: Container(
+                        child: InputTextField(controller: controller),
+                      ),
+                    ),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Container(
                           margin: EdgeInsets.all(8.0),
-                          child: DeleteButton(
-                            onPressed: () => TaskService.deleteItem(
-                              checked: checked,
-                              items: items,
-                              onDelete: () {
-                                setState(() {
-                                  items.removeWhere(
-                                      (item) => checked[items.indexOf(item)]);
-                                  checked.removeWhere((value) => value);
-                                });
-                              },
-                            ),
-                          )))
-                ],
+                          child: AddButton(
+                              onPressed: () => TaskService.addItem(
+                                  controller: controller,
+                                  items: items,
+                                  checked: checked,
+                                  onAdd: () {
+                                    setState(() {
+                                      items.add(controller.text);
+                                      checked.add(false);
+                                    });
+                                  })),
+                        )),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            margin: EdgeInsets.all(8.0),
+                            child: DeleteButton(
+                              onPressed: () => TaskService.deleteItem(
+                                checked: checked,
+                                items: items,
+                                onDelete: () {
+                                  setState(() {
+                                    items.removeWhere(
+                                        (item) => checked[items.indexOf(item)]);
+                                    checked.removeWhere((value) => value);
+                                  });
+                                },
+                              ),
+                            )))
+                  ],
+                ),
+              )),
+          Positioned(
+            top: 120,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
+                  ),
+                  border: Border.all(
+                    color: Colors.grey,
+                  )),
+              padding: EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height,
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      return CustomItem(
+                        value: checked[index],
+                        onChange: (value) => check(index: index, value: value),
+                        title: items[index],
+                        onUpdate: (newTitle) => TaskService.editItem(
+                          index: index,
+                          title: items[index],
+                          newTitle: newTitle,
+                          onComplete: (value) {
+                            setState(() {
+                              items[index] = value;
+                            });
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-              Flexible(
-                  child: Container(
-                      margin: EdgeInsets.all(32.0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: items.length,
-                        itemBuilder: (context, index) {
-                          return CustomItem(
-                            value: checked[index],
-                            onChange: (value) =>
-                                check(index: index, value: value),
-                            title: items[index],
-                            onUpdate: (newTitle) => TaskService.editItem(
-                              index: index,
-                              title: items[index],
-                              newTitle: newTitle,
-                              onComplete: (value) {
-                                setState(() {
-                                  items[index] = value;
-                                });
-                              },
-                            ),
-                          );
-                        },
-                      )))
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
