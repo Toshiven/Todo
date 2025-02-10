@@ -54,6 +54,8 @@ class TaskService {
             return;
           }
           await isar.tasks.delete(task.id);
+          items.removeAt(i);
+          checked.removeAt(i);
         }
       }
     });
