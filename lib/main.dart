@@ -6,7 +6,6 @@ import 'package:todo_app/widgets/add_button.dart';
 import 'package:todo_app/widgets/delete_button.dart';
 import 'package:todo_app/widgets/input_text_field.dart';
 import 'package:todo_app/widgets/list_item.dart';
-import 'package:todo_app/widgets/responsive.dart';
 import 'models/task.dart';
 
 late Isar isar;
@@ -30,16 +29,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const TodoApp(title: 'TODO LIST'),
+      home: const Login(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class TodoApp extends StatefulWidget {
-  const TodoApp({super.key, required this.title});
-
-  final String title;
+  const TodoApp({super.key});
 
   @override
   State<TodoApp> createState() => _TodoAppState();
@@ -84,9 +81,6 @@ class _TodoAppState extends State<TodoApp> {
         centerTitle: true,
         backgroundColor: const Color(0xFF1e1e2e),
         foregroundColor: const Color(0xFFcdd6f4),
-        title: Text(
-          widget.title,
-        ),
       ),
       body: Stack(
         children: <Widget>[
@@ -139,7 +133,16 @@ class _TodoAppState extends State<TodoApp> {
                                   });
                                 },
                               ),
-                            )))
+                            ))),
+                    Align(
+                      alignment: Alignment.center,
+                      child: ElevatedButton(
+                        child: Text("Logout"),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    )
                   ],
                 ),
               )),
@@ -192,6 +195,34 @@ class _TodoAppState extends State<TodoApp> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class Login extends StatelessWidget {
+  const Login({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: const Color(0xFF1e1e2e),
+        foregroundColor: const Color(0xFFcdd6f4),
+        title: Text("LOGIN"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          child: Text("Login"),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const TodoApp()),
+            );
+          },
+        ),
+      ),
+      backgroundColor: const Color(0xFF1e1e2e),
     );
   }
 }
