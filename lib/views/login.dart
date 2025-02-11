@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/views/todo.dart';
+import 'package:todo_app/widgets/email_text_field.dart';
+import 'package:todo_app/widgets/login_button.dart';
+import 'package:todo_app/widgets/password_text_field.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -33,40 +35,11 @@ class Login extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
+                        EmailTextField(),
                         SizedBox(height: 15),
-
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            border: OutlineInputBorder(),
-                          ),
-                          obscureText: true,
-                        ),
+                        PasswordInput(),
                         SizedBox(height: 20),
-
-                        // Login Button
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFa6e3a1),
-                            foregroundColor: Color(0xFF1e1e2e),
-                            padding: EdgeInsets.symmetric(vertical: 14),
-                            textStyle: TextStyle(fontSize: 16),
-                          ),
-                          child: Text("Login"),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const TodoApp()),
-                            );
-                          },
-                        ),
+                        LoginButton(),
                       ],
                     ),
                   ),
