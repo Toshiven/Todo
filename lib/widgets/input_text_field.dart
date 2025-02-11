@@ -18,7 +18,7 @@ class InputTextField extends StatelessWidget {
           hintStyle:
               TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(100),
             borderSide: BorderSide.none,
           ),
         ));

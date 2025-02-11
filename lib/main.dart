@@ -6,6 +6,7 @@ import 'package:todo_app/widgets/add_button.dart';
 import 'package:todo_app/widgets/delete_button.dart';
 import 'package:todo_app/widgets/input_text_field.dart';
 import 'package:todo_app/widgets/list_item.dart';
+import 'package:todo_app/widgets/responsive.dart';
 import 'models/task.dart';
 
 late Isar isar;
@@ -80,8 +81,12 @@ class _TodoAppState extends State<TodoApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2D336B),
-        title: Text(widget.title),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF1e1e2e),
+        foregroundColor: const Color(0xFFcdd6f4),
+        title: Text(
+          widget.title,
+        ),
       ),
       body: Stack(
         children: <Widget>[
@@ -91,11 +96,13 @@ class _TodoAppState extends State<TodoApp> {
               right: 0,
               height: 160,
               child: Container(
-                decoration: BoxDecoration(color: const Color(0xFF2D336B)),
+                decoration: BoxDecoration(color: const Color(0xFF1e1e2e)),
                 child: Row(
                   children: [
                     Flexible(
                       child: Container(
+                        constraints: BoxConstraints(minWidth: 350.0),
+                        width: MediaQuery.of(context).size.width * 1.0,
                         margin: EdgeInsets.all(8.0),
                         child: InputTextField(controller: controller),
                       ),
@@ -143,13 +150,13 @@ class _TodoAppState extends State<TodoApp> {
             bottom: 0,
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: const Color(0xFF313244),
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
                   ),
                   border: Border.all(
-                    color: Colors.grey,
+                    color: const Color(0xFF313244),
                   )),
               padding: EdgeInsets.all(16.0),
               child: Align(

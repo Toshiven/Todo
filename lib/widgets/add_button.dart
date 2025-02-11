@@ -9,11 +9,15 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.only(
-                top: 16.0, bottom: 16.0, left: 32.0, right: 32.0),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0))),
+          backgroundColor: Color(0xFF74c7ec),
+          foregroundColor: Color(0xFF1e1e2e),
+          shape: CircleBorder(),
+          padding: EdgeInsets.all(20),
+        ),
         onPressed: onPressed,
-        child: const Text('add task'));
+        child: Icon(
+          Icons.add,
+          color: const Color(0xFF1e1e2e),
+        ));
   }
 }

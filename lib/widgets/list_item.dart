@@ -42,35 +42,46 @@ class CustomItemState extends State<CustomItem> {
           leading: Checkbox(
             value: widget.value,
             onChanged: (value) => widget.onChange(value ?? false),
+            activeColor:
+                Color(0xFF89b4fa), // Changes checkbox color when checked
+            checkColor: Color(0xFFbac2de),
+            focusColor: Color(0xFFbac2de),
           ),
           title: isEditing
               ? TextField(
                   controller: controller,
                   autofocus: true,
+                  style: TextStyle(color: Color(0xFFbac2de)),
                   decoration: InputDecoration(
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.check, color: Colors.green),
+                          icon: Icon(Icons.check, color: Color(0xFFa6e3a1)),
                           onPressed: () {
                             widget.onUpdate(controller.text);
                             setState(() => isEditing = false);
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.close, color: Colors.red),
+                          icon: Icon(
+                            Icons.close,
+                            color: const Color(0xFFf38ba8),
+                          ),
                           onPressed: () => setState(() => isEditing = false),
                         ),
                       ],
                     ),
                   ),
                 )
-              : Text(widget.title),
+              : Text(
+                  widget.title,
+                  style: TextStyle(color: Color(0xFFbac2de)),
+                ),
           trailing: isEditing
               ? null
               : IconButton(
-                  icon: Icon(Icons.edit, color: Colors.amberAccent),
+                  icon: Icon(Icons.edit, color: const Color(0xFFf9e2af)),
                   onPressed: () => setState(() => isEditing = true),
                 ),
         ),
