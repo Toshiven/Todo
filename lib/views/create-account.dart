@@ -53,8 +53,6 @@ class CreateAccount extends StatelessWidget {
                         PasswordInput(),
                         SizedBox(height: 20),
                         CreateAccountButton(),
-//TODO: Write Input Fields for creating account
-//First Name, Last Name, Email, and Password
                       ],
                     ),
                   ),
