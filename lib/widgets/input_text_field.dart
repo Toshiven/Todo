@@ -13,10 +13,10 @@ class InputTextField extends StatelessWidget {
           contentPadding:
               EdgeInsets.only(top: 16.0, bottom: 16.0, left: 32.0, right: 32.0),
           filled: true,
-          fillColor: Colors.white.withValues(alpha: 0.8),
           hintText: "Add Tasks",
-          hintStyle:
-              TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold),
+          fillColor: const Color(0xFFcdd6f4),
+          hintStyle: TextStyle(
+              color: const Color(0xFFa6adc8), fontWeight: FontWeight.bold),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(100),
             borderSide: BorderSide.none,

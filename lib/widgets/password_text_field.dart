@@ -8,6 +8,9 @@ class PasswordInput extends StatelessWidget {
     return const TextField(
       decoration: InputDecoration(
         labelText: 'Password',
+        fillColor: const Color(0xFFbac2de),
+        hintStyle: TextStyle(
+            color: const Color(0xFF7f849c), fontWeight: FontWeight.bold),
         border: OutlineInputBorder(),
       ),
       obscureText: true,

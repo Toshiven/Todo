@@ -8,6 +8,9 @@ class EmailTextField extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         labelText: 'Email',
+        fillColor: const Color(0xFFcdd6f4),
+        hintStyle: TextStyle(
+            color: const Color(0xFFa6adc8), fontWeight: FontWeight.bold),
         border: OutlineInputBorder(),
       ),
     );

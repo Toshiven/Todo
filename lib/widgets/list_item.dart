@@ -42,10 +42,10 @@ class CustomItemState extends State<CustomItem> {
           leading: Checkbox(
             value: widget.value,
             onChanged: (value) => widget.onChange(value ?? false),
-            activeColor:
-                Color(0xFF89b4fa), // Changes checkbox color when checked
+            activeColor: Color(0xFF89b4fa),
             checkColor: Color(0xFFbac2de),
             focusColor: Color(0xFFbac2de),
+            side: BorderSide(color: Color(0xFFbac2de)),
           ),
           title: isEditing
               ? TextField(
