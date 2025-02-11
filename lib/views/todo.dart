@@ -107,15 +107,6 @@ class _TodoAppState extends State<TodoApp> {
                                 },
                               ),
                             ))),
-                    Align(
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        child: Text("Logout"),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    )
                   ],
                 ),
               )),
