@@ -83,21 +83,35 @@ class _TodoAppState extends State<TodoApp> {
                           margin: EdgeInsets.symmetric(horizontal: 8.0),
                           child: InputTextField(controller: controller),
                         ),
-                        AddButton(
-                          onPressed: () => TaskService.addItem(
-                            controller: controller,
-                            items: items,
-                            checked: checked,
-                            onAdd: () {
-                              setState(
-                                () {
-                                  items.add(controller.text);
-                                  checked.add(false);
-                                },
-                              );
-                            },
-                          ),
-                        ),
+                        AddButton(onPressed: () async {
+                          await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text("Are you sure?"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          TaskService.addItem(
+                                            controller: controller,
+                                            items: items,
+                                            checked: checked,
+                                            onAdd: () {
+                                              setState(
+                                                () {
+                                                  items.add(controller.text);
+                                                  checked.add(false);
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Text("Add")),
+                                  ],
+                                );
+                              });
+                        }),
                         Visibility(
                           visible: checked.contains(true),
                           child: DeleteButton(onPressed: () async {
