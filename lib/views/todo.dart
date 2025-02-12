@@ -100,21 +100,39 @@ class _TodoAppState extends State<TodoApp> {
                         ),
                         Visibility(
                           visible: checked.contains(true),
-                          child: DeleteButton(
-                            onPressed: () => TaskService.deleteItem(
-                              checked: checked,
-                              items: items,
-                              onDelete: () {
-                                setState(
-                                  () {
-                                    items.removeWhere(
-                                        (item) => checked[items.indexOf(item)]);
-                                    checked.removeWhere((value) => value);
-                                  },
-                                );
-                              },
-                            ),
-                          ),
+                          child: DeleteButton(onPressed: () async {
+                            //FIXME: confirmed is not used although deleting works like a beauty
+                            bool? confirmed = await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Text("Are you sure?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          TaskService.deleteItem(
+                                            checked: checked,
+                                            items: items,
+                                            onDelete: () {
+                                              setState(
+                                                () {
+                                                  items.removeWhere((item) =>
+                                                      checked[
+                                                          items.indexOf(item)]);
+                                                  checked.removeWhere(
+                                                      (value) => value);
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Text('Delete'),
+                                      )
+                                    ],
+                                  );
+                                });
+                          }),
                         ),
                       ],
                     ),
