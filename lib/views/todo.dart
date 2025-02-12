@@ -84,27 +84,36 @@ class _TodoAppState extends State<TodoApp> {
                           child: InputTextField(controller: controller),
                         ),
                         AddButton(
-                            onPressed: () => TaskService.addItem(
-                                controller: controller,
-                                items: items,
-                                checked: checked,
-                                onAdd: () {
-                                  setState(() {
-                                    items.add(controller.text);
-                                    checked.add(false);
-                                  });
-                                })),
-                        DeleteButton(
-                          onPressed: () => TaskService.deleteItem(
-                            checked: checked,
+                          onPressed: () => TaskService.addItem(
+                            controller: controller,
                             items: items,
-                            onDelete: () {
-                              setState(() {
-                                items.removeWhere(
-                                    (item) => checked[items.indexOf(item)]);
-                                checked.removeWhere((value) => value);
-                              });
+                            checked: checked,
+                            onAdd: () {
+                              setState(
+                                () {
+                                  items.add(controller.text);
+                                  checked.add(false);
+                                },
+                              );
                             },
+                          ),
+                        ),
+                        Visibility(
+                          visible: checked.contains(true),
+                          child: DeleteButton(
+                            onPressed: () => TaskService.deleteItem(
+                              checked: checked,
+                              items: items,
+                              onDelete: () {
+                                setState(
+                                  () {
+                                    items.removeWhere(
+                                        (item) => checked[items.indexOf(item)]);
+                                    checked.removeWhere((value) => value);
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ],
