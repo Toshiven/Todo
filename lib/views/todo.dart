@@ -101,8 +101,7 @@ class _TodoAppState extends State<TodoApp> {
                         Visibility(
                           visible: checked.contains(true),
                           child: DeleteButton(onPressed: () async {
-                            //FIXME: confirmed is not used although deleting works like a beauty
-                            bool? confirmed = await showDialog(
+                            await showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
