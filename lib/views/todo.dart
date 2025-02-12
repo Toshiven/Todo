@@ -77,41 +77,36 @@ class _TodoAppState extends State<TodoApp> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Container(
-                          width: constraints.maxWidth > 800
-                              ? 700
+                          width: constraints.maxWidth > 700
+                              ? 600
                               : constraints.maxWidth * 0.9,
                           margin: EdgeInsets.symmetric(horizontal: 8.0),
                           child: InputTextField(controller: controller),
                         ),
-                        Container(
-                          margin: EdgeInsets.all(8.0),
-                          child: AddButton(
-                              onPressed: () => TaskService.addItem(
-                                  controller: controller,
-                                  items: items,
-                                  checked: checked,
-                                  onAdd: () {
-                                    setState(() {
-                                      items.add(controller.text);
-                                      checked.add(false);
-                                    });
-                                  })),
-                        ),
-                        Container(
-                            margin: EdgeInsets.all(8.0),
-                            child: DeleteButton(
-                              onPressed: () => TaskService.deleteItem(
-                                checked: checked,
+                        AddButton(
+                            onPressed: () => TaskService.addItem(
+                                controller: controller,
                                 items: items,
-                                onDelete: () {
+                                checked: checked,
+                                onAdd: () {
                                   setState(() {
-                                    items.removeWhere(
-                                        (item) => checked[items.indexOf(item)]);
-                                    checked.removeWhere((value) => value);
+                                    items.add(controller.text);
+                                    checked.add(false);
                                   });
-                                },
-                              ),
-                            )),
+                                })),
+                        DeleteButton(
+                          onPressed: () => TaskService.deleteItem(
+                            checked: checked,
+                            items: items,
+                            onDelete: () {
+                              setState(() {
+                                items.removeWhere(
+                                    (item) => checked[items.indexOf(item)]);
+                                checked.removeWhere((value) => value);
+                              });
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   )),
