@@ -84,7 +84,7 @@ class _TodoAppState extends State<TodoApp> {
                           child: InputTextField(controller: controller),
                         ),
                         AddButton(onPressed: () async {
-                          await showDialog(
+                          bool? confirmed = await showDialog<bool>(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
@@ -92,59 +92,73 @@ class _TodoAppState extends State<TodoApp> {
                                   actions: [
                                     TextButton(
                                         onPressed: () {
-                                          Navigator.of(context).pop();
-                                          TaskService.addItem(
-                                            controller: controller,
-                                            items: items,
-                                            checked: checked,
-                                            onAdd: () {
-                                              setState(
-                                                () {
-                                                  items.add(controller.text);
-                                                  checked.add(false);
-                                                },
-                                              );
-                                            },
-                                          );
+                                          Navigator.of(context).pop(false);
+                                        },
+                                        child: Text("Cancel")),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true);
                                         },
                                         child: Text("Add")),
                                   ],
                                 );
                               });
+                          if (confirmed ?? false) {
+                            TaskService.addItem(
+                              controller: controller,
+                              items: items,
+                              checked: checked,
+                              onAdd: () {
+                                setState(
+                                  () {
+                                    items.add(controller.text);
+                                    checked.add(false);
+                                  },
+                                );
+                              },
+                            );
+                          }
                         }),
                         Visibility(
                           visible: checked.contains(true),
                           child: DeleteButton(onPressed: () async {
-                            await showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    content: Text("Are you sure?"),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          TaskService.deleteItem(
-                                            checked: checked,
-                                            items: items,
-                                            onDelete: () {
-                                              setState(
-                                                () {
-                                                  items.removeWhere((item) =>
-                                                      checked[
-                                                          items.indexOf(item)]);
-                                                  checked.removeWhere(
-                                                      (value) => value);
-                                                },
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: Text('Delete'),
-                                      )
-                                    ],
+                            bool? confirmed = await showDialog<bool>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text("Are you sure?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false);
+                                      },
+                                      child: Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                      },
+                                      child: Text('Delete'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                            if (confirmed ?? false) {
+                              TaskService.deleteItem(
+                                checked: checked,
+                                items: items,
+                                onDelete: () {
+                                  setState(
+                                    () {
+                                      items.removeWhere((item) =>
+                                          checked[items.indexOf(item)]);
+                                      checked.removeWhere((value) => value);
+                                    },
                                   );
-                                });
+                                },
+                              );
+                            }
                           }),
                         ),
                       ],
@@ -182,16 +196,40 @@ class _TodoAppState extends State<TodoApp> {
                             onChange: (value) =>
                                 check(index: index, value: value),
                             title: items[index],
-                            onUpdate: (newTitle) => TaskService.editItem(
-                              index: index,
-                              title: items[index],
-                              newTitle: newTitle,
-                              onComplete: (value) {
-                                setState(() {
-                                  items[index] = value;
-                                });
-                              },
-                            ),
+                            onUpdate: (newTitle) async {
+                              bool? confirmed = await showDialog<bool>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Text("Confirm edit?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, false),
+                                        child: Text("Cancel"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, true),
+                                        child: Text("Confirm"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              if (confirmed ?? false) {
+                                TaskService.editItem(
+                                  index: index,
+                                  title: items[index],
+                                  newTitle: newTitle,
+                                  onComplete: (value) {
+                                    setState(() {
+                                      items[index] = value;
+                                    });
+                                  },
+                                );
+                              }
+                            },
                           );
                         },
                       ),
