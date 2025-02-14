@@ -42,10 +42,11 @@ class _TodoAppState extends State<TodoApp> {
     });
   }
 
-  void check({required int index, bool value = false}) {
+  void check({required int index, bool value = false}) async {
     setState(() {
       checked[index] = value;
     });
+    await TaskService.toggleCheck(items[index], value);
   }
 
   @override

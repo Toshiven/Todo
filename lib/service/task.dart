@@ -62,4 +62,14 @@ class TaskService {
 
     onDelete();
   }
+
+  static Future<void> toggleCheck(String title, bool isChecked) async {
+    final task =
+        await isar.tasks.where().filter().titleEqualTo(title).findFirst();
+    if (task == null) return;
+    task.completed = isChecked;
+    await isar.writeTxn(() async {
+      await isar.tasks.put(task);
+    });
+  }
 }
