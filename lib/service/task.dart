@@ -10,9 +10,7 @@ class TaskService {
       required Function(String value) onComplete}) async {
     final task =
         await isar.tasks.where().filter().titleEqualTo(title).findFirst();
-    if (task == null) {
-      return;
-    }
+    if (task == null) return;
     task.title = newTitle;
     await isar.writeTxn(() async {
       await isar.tasks.put(task);
@@ -25,7 +23,6 @@ class TaskService {
       required List<String> items,
       required List<bool> checked,
       required Function() onAdd}) async {
-    //adds items to the Isae db
     if (controller.text.isNotEmpty) {
       final newTask = Task(title: controller.text, completed: false);
 
@@ -50,9 +47,7 @@ class TaskService {
               .titleEqualTo(items[i])
               .findFirst();
 
-          if (task == null) {
-            return;
-          }
+          if (task == null) return;
           await isar.tasks.delete(task.id);
           items.removeAt(i);
           checked.removeAt(i);
