@@ -7,13 +7,6 @@ class InputTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: make the TextField more responsive
-
-    // return LayoutBuilder(
-    //   builder: (BuildContext context, BoxConstraints constraints) {
-    //     double margin = ResponsiveInputField.getMargin(constraints);
-    //     return Container(
-    // padding: EdgeInsets.symmetric(horizontal: margin),
     return TextField(
       controller: controller,
       decoration: InputDecoration(
